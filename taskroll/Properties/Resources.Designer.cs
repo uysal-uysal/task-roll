@@ -113,6 +113,16 @@ namespace taskroll.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
+        internal static System.Drawing.Bitmap noconnection {
+            get {
+                object obj = ResourceManager.GetObject("noconnection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
         internal static System.Drawing.Bitmap powericon {
             get {
                 object obj = ResourceManager.GetObject("powericon", resourceCulture);
@@ -176,6 +186,16 @@ namespace taskroll.Properties {
         internal static System.Drawing.Bitmap taskroll1 {
             get {
                 object obj = ResourceManager.GetObject("taskroll1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
+        internal static System.Drawing.Bitmap yesconnection {
+            get {
+                object obj = ResourceManager.GetObject("yesconnection", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

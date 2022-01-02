@@ -40,10 +40,29 @@ namespace taskroll
         PerformanceCounter diskRead = new PerformanceCounter("PhysicalDisk", "Disk Read Bytes/sec", "_Total");
         PerformanceCounter diskWrite = new PerformanceCounter("PhysicalDisk", "Disk Write Bytes/sec", "_Total");
 
+        BackgroundWorker bgwConnection;
+
+        //connected network ssid and signal
+        string ssid = "";
+        string signal = "";
+
+       
         private void Utilities_Load(object sender, EventArgs e)
         {
-            //set default value to combobox
-            comboBoxDisk.SelectedIndex = 0;
+            //check connection
+            CheckForIllegalCrossThreadCalls = false;
+            bgwConnection = new BackgroundWorker();
+            bgwConnection.DoWork += bgwConnectionDo;
+            timerConnection.Start();
+
+
+            //set default value to disk combobox
+            foreach (var drive in DriveInfo.GetDrives())
+            {
+                comboBoxDisk.Items.Add(drive);
+            }
+                //if (!comboBoxDisk.Items.Contains(drive))
+                comboBoxDisk.SelectedIndex = 0;
 
             try
             {
@@ -174,13 +193,81 @@ namespace taskroll
             return (int)(p.BatteryLifePercent * 100);
         }
 
+
+        //get connected network properties
+        private void connectedNetwork()
+        {
+            Process p = new Process();
+            p.StartInfo.FileName = "netsh.exe";
+            p.StartInfo.Arguments = "wlan show interfaces";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.Start();
+
+            string s = p.StandardOutput.ReadToEnd();
+            string s1 = s.Substring(s.IndexOf("SSID"));
+            s1 = s1.Substring(s1.IndexOf(":"));
+            s1 = s1.Substring(2, s1.IndexOf("\n")).Trim();
+
+            string s2 = s.Substring(s.IndexOf("Signal"));
+            s2 = s2.Substring(s2.IndexOf(":"));
+            s2 = s2.Substring(2, s2.IndexOf("\n")).Trim();
+
+            ssid = s1;
+            signal = s2;
+            p.WaitForExit();
+
+        }
+        
+        //get connected network properties
+        private void yesConnection_Click(object sender, EventArgs e)
+        {
+            connectedNetwork();
+            string temp = string.Empty;
+            temp += "SSID : " + ssid + "\n";
+            temp += "Signal : " + signal;
+            MessageBox.Show(temp);
+        }
+
+        //set connection icons according to connection
+        private void bgwConnectionDo(object sender, DoWorkEventArgs e)
+        {
+            if (!connStatus())
+            {
+                yesConnection.Visible = false;
+                noConnection.Visible = true;
+            }
+            else
+            {
+                noConnection.Visible = false;
+                yesConnection.Visible = true;
+            }
+        }
+
+        private void timerConnection_Tick(object sender, EventArgs e)
+        {
+            if (!bgwConnection.IsBusy)
+            {
+                bgwConnection.RunWorkerAsync();
+            }
+        }
+
+        public bool connStatus()
+        {
+            bool conn = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
+            return conn;
+
+        }
+
         private void timer_Tick(object sender, EventArgs e)
         {
             //((diskRead.NextValue() / 1024f) / 1024f) --> byte to mb
             try
             {
+                //take all disks and add to combobox
+                //çözülecek
+
                 //get disk usages and informations
-                
                 string disk = comboBoxDisk.SelectedItem.ToString();
                 DriveInfo driveInfo = new DriveInfo(disk);
 

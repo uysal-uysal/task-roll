@@ -42,6 +42,12 @@
             this.labelDiskWrite = new System.Windows.Forms.Label();
             this.labelDiskRead = new System.Windows.Forms.Label();
             this.comboBoxDisk = new System.Windows.Forms.ComboBox();
+            this.panelBattery = new System.Windows.Forms.Panel();
+            this.panelDisk = new System.Windows.Forms.Panel();
+            this.timerConnection = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.yesConnection = new System.Windows.Forms.Button();
+            this.noConnection = new System.Windows.Forms.Button();
             this.buttonBrightnessIcon = new System.Windows.Forms.Button();
             this.buttonTurnOff = new System.Windows.Forms.Button();
             this.buttonRestart = new System.Windows.Forms.Button();
@@ -49,8 +55,6 @@
             this.buttonInc = new System.Windows.Forms.Button();
             this.buttonDec = new System.Windows.Forms.Button();
             this.buttonMute = new System.Windows.Forms.Button();
-            this.panelBattery = new System.Windows.Forms.Panel();
-            this.panelDisk = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarBrightness)).BeginInit();
             this.panelBattery.SuspendLayout();
             this.panelDisk.SuspendLayout();
@@ -173,13 +177,75 @@
             // 
             this.comboBoxDisk.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDisk.FormattingEnabled = true;
-            this.comboBoxDisk.Items.AddRange(new object[] {
-            "C",
-            "D"});
             this.comboBoxDisk.Location = new System.Drawing.Point(47, 50);
             this.comboBoxDisk.Name = "comboBoxDisk";
             this.comboBoxDisk.Size = new System.Drawing.Size(102, 22);
             this.comboBoxDisk.TabIndex = 22;
+            // 
+            // panelBattery
+            // 
+            this.panelBattery.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelBattery.Controls.Add(this.progressBarBattery);
+            this.panelBattery.Controls.Add(this.labelBatteryName);
+            this.panelBattery.Controls.Add(this.labelBatteryStatus);
+            this.panelBattery.Controls.Add(this.labelRemaining);
+            this.panelBattery.Location = new System.Drawing.Point(50, 35);
+            this.panelBattery.Name = "panelBattery";
+            this.panelBattery.Size = new System.Drawing.Size(380, 345);
+            this.panelBattery.TabIndex = 24;
+            // 
+            // panelDisk
+            // 
+            this.panelDisk.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelDisk.Controls.Add(this.comboBoxDisk);
+            this.panelDisk.Controls.Add(this.labelDiskFormat);
+            this.panelDisk.Controls.Add(this.labelDiskName);
+            this.panelDisk.Controls.Add(this.labelDiskRead);
+            this.panelDisk.Controls.Add(this.labelDiskAvailable);
+            this.panelDisk.Controls.Add(this.labelDiskWrite);
+            this.panelDisk.Controls.Add(this.labelDiskTotal);
+            this.panelDisk.Location = new System.Drawing.Point(530, 35);
+            this.panelDisk.Name = "panelDisk";
+            this.panelDisk.Size = new System.Drawing.Size(380, 345);
+            this.panelDisk.TabIndex = 25;
+            // 
+            // timerConnection
+            // 
+            this.timerConnection.Interval = 1000;
+            this.timerConnection.Tick += new System.EventHandler(this.timerConnection_Tick);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(437, 263);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 14);
+            this.label1.TabIndex = 26;
+            // 
+            // yesConnection
+            // 
+            this.yesConnection.BackgroundImage = global::taskroll.Properties.Resources.yesconnection;
+            this.yesConnection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.yesConnection.FlatAppearance.BorderSize = 0;
+            this.yesConnection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.yesConnection.Location = new System.Drawing.Point(728, 427);
+            this.yesConnection.Name = "yesConnection";
+            this.yesConnection.Size = new System.Drawing.Size(35, 30);
+            this.yesConnection.TabIndex = 28;
+            this.yesConnection.UseVisualStyleBackColor = true;
+            this.yesConnection.Click += new System.EventHandler(this.yesConnection_Click);
+            // 
+            // noConnection
+            // 
+            this.noConnection.BackgroundImage = global::taskroll.Properties.Resources.noconnection;
+            this.noConnection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.noConnection.FlatAppearance.BorderSize = 0;
+            this.noConnection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.noConnection.Location = new System.Drawing.Point(686, 427);
+            this.noConnection.Name = "noConnection";
+            this.noConnection.Size = new System.Drawing.Size(35, 30);
+            this.noConnection.TabIndex = 27;
+            this.noConnection.UseVisualStyleBackColor = true;
             // 
             // buttonBrightnessIcon
             // 
@@ -188,7 +254,7 @@
             this.buttonBrightnessIcon.Enabled = false;
             this.buttonBrightnessIcon.FlatAppearance.BorderSize = 0;
             this.buttonBrightnessIcon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonBrightnessIcon.Location = new System.Drawing.Point(465, 390);
+            this.buttonBrightnessIcon.Location = new System.Drawing.Point(284, 420);
             this.buttonBrightnessIcon.Name = "buttonBrightnessIcon";
             this.buttonBrightnessIcon.Size = new System.Drawing.Size(30, 25);
             this.buttonBrightnessIcon.TabIndex = 23;
@@ -203,7 +269,7 @@
             this.buttonTurnOff.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonTurnOff.Location = new System.Drawing.Point(900, 430);
             this.buttonTurnOff.Name = "buttonTurnOff";
-            this.buttonTurnOff.Size = new System.Drawing.Size(25, 27);
+            this.buttonTurnOff.Size = new System.Drawing.Size(32, 27);
             this.buttonTurnOff.TabIndex = 12;
             this.buttonTurnOff.UseVisualStyleBackColor = false;
             this.buttonTurnOff.Click += new System.EventHandler(this.buttonTurnOff_Click);
@@ -229,7 +295,7 @@
             this.buttonSleep.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonSleep.FlatAppearance.BorderSize = 0;
             this.buttonSleep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSleep.Location = new System.Drawing.Point(780, 430);
+            this.buttonSleep.Location = new System.Drawing.Point(785, 430);
             this.buttonSleep.Name = "buttonSleep";
             this.buttonSleep.Size = new System.Drawing.Size(25, 27);
             this.buttonSleep.TabIndex = 10;
@@ -278,38 +344,14 @@
             this.buttonMute.UseVisualStyleBackColor = false;
             this.buttonMute.Click += new System.EventHandler(this.buttonMute_Click);
             // 
-            // panelBattery
-            // 
-            this.panelBattery.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelBattery.Controls.Add(this.progressBarBattery);
-            this.panelBattery.Controls.Add(this.labelBatteryName);
-            this.panelBattery.Controls.Add(this.labelBatteryStatus);
-            this.panelBattery.Controls.Add(this.labelRemaining);
-            this.panelBattery.Location = new System.Drawing.Point(50, 35);
-            this.panelBattery.Name = "panelBattery";
-            this.panelBattery.Size = new System.Drawing.Size(380, 345);
-            this.panelBattery.TabIndex = 24;
-            // 
-            // panelDisk
-            // 
-            this.panelDisk.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelDisk.Controls.Add(this.comboBoxDisk);
-            this.panelDisk.Controls.Add(this.labelDiskFormat);
-            this.panelDisk.Controls.Add(this.labelDiskName);
-            this.panelDisk.Controls.Add(this.labelDiskRead);
-            this.panelDisk.Controls.Add(this.labelDiskAvailable);
-            this.panelDisk.Controls.Add(this.labelDiskWrite);
-            this.panelDisk.Controls.Add(this.labelDiskTotal);
-            this.panelDisk.Location = new System.Drawing.Point(530, 35);
-            this.panelDisk.Name = "panelDisk";
-            this.panelDisk.Size = new System.Drawing.Size(380, 345);
-            this.panelDisk.TabIndex = 25;
-            // 
             // Utilities
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 476);
+            this.Controls.Add(this.yesConnection);
+            this.Controls.Add(this.noConnection);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panelDisk);
             this.Controls.Add(this.panelBattery);
             this.Controls.Add(this.buttonBrightnessIcon);
@@ -358,5 +400,9 @@
         private System.Windows.Forms.Button buttonBrightnessIcon;
         private System.Windows.Forms.Panel panelBattery;
         private System.Windows.Forms.Panel panelDisk;
+        private System.Windows.Forms.Timer timerConnection;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button noConnection;
+        private System.Windows.Forms.Button yesConnection;
     }
 }
